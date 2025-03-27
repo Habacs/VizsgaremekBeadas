@@ -6,6 +6,7 @@ import LoginView from '@/views/LoginView.vue';
 import ConnetionsView from '@/views/ConnetionsView.vue';
 import TermsAndConditionsView from '@/views/TermsAndConditionsView.vue';
 import PrivacyAndPolicyView from '@/views/PrivacyAndPolicyView.vue';
+import AdminView from '@/views/AdminView.vue';
 
 import TanksView from '@/views/ProductsView.vue/TanksView.vue';
 
@@ -13,7 +14,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/home',
+      path: '/',
       name: 'home',
       component: HomeView,
     },
@@ -47,6 +48,12 @@ const router = createRouter({
       path: '/tanks',
       name: 'tanks',
       component: TanksView,
+    },
+
+    {
+      path: '/admin',
+      name: 'admin',
+      component: AdminView,
     },
   ],
 });

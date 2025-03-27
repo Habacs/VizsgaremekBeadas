@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav class="navbar">
-      <RouterLink class="nav-link" to="/home">Home</RouterLink>
+      <RouterLink class="nav-link" to="/">Home</RouterLink>
       <RouterLink class="nav-link" to="/connection">Connections</RouterLink>
 
       <div class="dropdown">
@@ -29,6 +29,8 @@
           </li>
         </ul>
       </div>
+
+      <RouterLink class="nav-link admin" to="/admin">Admin</RouterLink>
     </nav>
 
     <div class="auth-links flex-column">
