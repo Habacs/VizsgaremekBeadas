@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use App\Http\Controllers\Controller;
-use App\Models\Product;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class AdminController extends Controller{
-    public function dashboard(){
-        $products = Product::all();
+class Product extends Model
+{
+    use HasFactory;
 
-        return view('admin.dashboard', compact('products'));
-    }
+    protected $table = 'productss'; 
 }
