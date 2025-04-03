@@ -7,6 +7,7 @@ import ConnetionsView from '@/views/ConnetionsView.vue';
 import TermsAndConditionsView from '@/views/TermsAndConditionsView.vue';
 import PrivacyAndPolicyView from '@/views/PrivacyAndPolicyView.vue';
 import AdminView from '@/views/AdminView.vue';
+import CartView from '@/views/CartView.vue';
 
 import TanksView from '@/views/ProductsView.vue/TanksView.vue';
 
@@ -40,8 +41,13 @@ const router = createRouter({
     },
     {
       path: '/policy',
-      name: 'poliyc',
+      name: 'policy',
       component: PrivacyAndPolicyView,
+    },
+    {
+      path: '/Cart',
+      name: 'Cart',
+      component: CartView,
     },
 
     {
