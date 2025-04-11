@@ -1,39 +1,72 @@
 <template>
   <header>
-    <nav class="navbar">
-      <RouterLink class="nav-link" to="/">Home</RouterLink>
-      <RouterLink class="nav-link" to="/connection">Connections</RouterLink>
+    <nav class="navbar navbar-expand-lg navbar-light custom-navbar shadow-sm">
+      <div class="container">
+        <RouterLink class="navbar-brand" to="/">Home</RouterLink>
 
-      <div class="dropdown">
-        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdown" data-bs-toggle="dropdown">
-          Boys
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <ul class="dropdown-menu">
-          <li v-for="itemB in BoyItems" :key="itemB.name">
-            <RouterLink class="dropdown-item" :to="itemB.path">
-              {{ itemB.name }}
-            </RouterLink>
-          </li>
-        </ul>
-      </div>
 
-      <div class="dropdown">
-        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdown" data-bs-toggle="dropdown">
-          Girls
-        </button>
-        <ul class="dropdown-menu">
-          <li v-for="itemG in GirlItems" :key="itemG.name">
-            <RouterLink class="dropdown-item" :to="itemG.path">
-              {{ itemG.name }}
-            </RouterLink>
-          </li>
-        </ul>
-      </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/connection">Connections</RouterLink>
+            </li>
+            <li class="nav-item dropdown">
+              <button
+                class="btn btn-light dropdown-toggle"
+                type="button"
+                id="boysDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Boys
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="boysDropdown">
+                <li v-for="itemB in BoyItems" :key="itemB.name">
+                  <RouterLink class="dropdown-item" :to="itemB.path">
+                    {{ itemB.name }}
+                  </RouterLink>
+                </li>
+              </ul>
+            </li>
 
-      <RouterLink class="nav-link admin" to="/admin">Admin</RouterLink>
+            <li class="nav-item dropdown">
+              <button
+                class="btn btn-light dropdown-toggle"
+                type="button"
+                id="girlsDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Girls
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="girlsDropdown">
+                <li v-for="itemG in GirlItems" :key="itemG.name">
+                  <RouterLink class="dropdown-item" :to="itemG.path">
+                    {{ itemG.name }}
+                  </RouterLink>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/admin">Admin</RouterLink>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
 
-    <div class="auth-links flex-column">
+    <div class="auth-links">
       <RouterLink class="nav-link" to="/register">Register</RouterLink>
       <RouterLink class="nav-link" to="/login">Login</RouterLink>
     </div>
@@ -78,8 +111,8 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px 20px;
-  background-color: #000000;
+  padding: 0px 20px;
+  background-color: #e9fafa; 
 }
 
 nav {
@@ -88,26 +121,49 @@ nav {
 }
 
 nav .nav-link {
-  text-decoration: none;
-  color: white;
-  font-size: 1rem;
+  color: #007f7f;
+  font-weight: 500;
   padding: 10px 15px;
-  background: linear-gradient(to bottom, #edeff1, #0b0b0b);
   border-radius: 5px;
-  transition: background 0.3s, transform 0.2s;
+  transition: background-color 0.3s, transform 0.2s;
+  text-decoration: none;
 }
 
 nav .nav-link:hover {
-  background: linear-gradient(to bottom, #edeff1, #0b0b0b);
-  color: #000000;
+  background-color: #d4f0f0;
+  color: #005c5c;
   transform: scale(1.05);
 }
 
+.navbar-toggler {
+  border: none;
+  background-color: transparent;
+}
+
 .auth-links {
-  text-decoration: none;
-  color: white;
-  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.auth-links .nav-link {
+  color: #007f7f;
+  font-weight: 500;
   padding: 5px 10px;
   border-radius: 5px;
+  text-decoration: none;
+  background-color: #e9fafa;
+}
+
+.auth-links .nav-link:hover {
+  color: #005c5c;
+  background-color: #d4f0f0;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #00aaaa !important;
+  font-size: 1.4rem;
 }
 </style>
