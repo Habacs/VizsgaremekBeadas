@@ -1,28 +1,26 @@
 <template>
-  <div class="register-container">
-    <h2>Register</h2>
+  <div class="page-wrapper">
+    <h2>Regisztráció</h2>
     <form class="register-form" @submit.prevent="register">
-      <input type="text" v-model="username" placeholder="Username" required />
-      <input type="email" v-model="email" placeholder="Email" required />
-      <input type="password" v-model="password" placeholder="Password" required />
-      <button type="submit">Sign Up</button>
+      <input type="text" v-model="username" placeholder="Felhasználónév" required />
+      <input type="email" v-model="email" placeholder="Email cím" required />
+      <input type="password" v-model="password" placeholder="Jelszó" required />
+      <button type="submit">Regisztráció</button>
     </form>
-    <p>Already have an account?</p>
-    <button class="switch-btn" @click="goToLogin">Login here</button>
-  </div>
 
-  <div class="terms_and_conditions">
-    <p>
-      <input type="checkbox"/>
-      By continuing, you agree to our 
-      <router-link to="/terms">Terms of Service</router-link> 
-      and acknowledge our <router-link to="/policy">Privacy Policy</router-link>.
-    </p>
-    <p>
-      We recommend that you consult with your physician before beginning any exercise program
-    </p>
-  </div>
+    <p class="mt-3">Már van fiókod?</p>
+    <button class="switch-btn" @click="goToLogin">Bejelentkezés</button>
 
+    <div class="terms_and_conditions mt-4">
+      <p>
+        <input type="checkbox" required />
+        A folytatással elfogadod a
+        <router-link to="/terms">Felhasználási feltételeket</router-link>
+        és tudomásul veszed az
+        <router-link to="/policy">Adatvédelmi szabályzatot</router-link>.
+      </p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -46,16 +44,6 @@ export default {
 </script>
 
 <style scoped>
-.register-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #121212;
-  color: #ffffff;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 20px 20px 20px rgb(0, 0, 0);
-}
 
 .register-form {
   display: flex;
@@ -63,48 +51,72 @@ export default {
 }
 
 .register-form input {
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  color: #fff;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.register-form input:focus {
+  outline: none;
+  border-color: #00b4b4;
+  box-shadow: 0 0 0 2px rgba(0, 180, 180, 0.2);
 }
 
 .register-form button {
-  background-color: whitesmoke;
-  color: black;
+  background-color: #00b4b4;
+  color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 0.8rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  font-size: 1rem;
+  transition: background-color 0.3s;
 }
 
 .register-form button:hover {
-  background-color: black;
-  color: whitesmoke;
+  background-color: #007f7f;
 }
 
 .switch-btn {
-  background-color: whitesmoke;
-  color: black;
-  border: 1px solid black;
-  padding: 10px 15px;
-  margin-top: 10px;
-  border-radius: 5px;
+  margin-top: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #00b4b4;
+  color: #00b4b4;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 1rem;
   transition: all 0.3s;
 }
 
 .switch-btn:hover {
-  background-color: black;
-  color: whitesmoke;
-  border: 1px solid whitesmoke;
+  background-color: #00b4b4;
+  color: white;
 }
 
 .terms_and_conditions {
-  text-align: center;
-  color: rgb(14, 9, 9);
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.terms_and_conditions input[type="checkbox"] {
+  margin-right: 0.4rem;
+}
+
+.terms_and_conditions a {
+  color: #00b4b4;
+  text-decoration: underline;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mt-4 {
+  margin-top: 2rem;
 }
 </style>

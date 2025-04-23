@@ -1,18 +1,20 @@
 <template>
   <div class="connections-container">
-    <h2>Connections</h2>
-    <ul class="connections-list">
-      <li v-for="connection in connections" :key="connection.id" class="connection-item">
-        <div class="connection-info">
-          <span class="connection-name">{{ connection.name }}</span>
-          <button class="connect-btn" @click="showDetails(connection)">View Details</button>
-        </div>
-        <div v-if="selectedConnection && selectedConnection.id === connection.id" class="connection-details">
-          <p>Email: {{ selectedConnection.email }}</p>
-          <p>Mobile: {{ selectedConnection.mobile }}</p>
-        </div>
-      </li>
-    </ul>
+    <h2>Lépj velünk kapcsolatba</h2>
+    
+    <div class="contact-info">
+      <p><strong>Email:</strong> help@formatoro.org</p>
+      <p><strong>Telefonszám:</strong> +36 30 123 4567</p>
+      <p><strong>Cím:</strong> 1051 Budapest, Szív utca 10.</p>
+    </div>
+
+    <form class="contact-form" @submit.prevent="submitForm">
+      <h3>Írj nekünk</h3>
+      <input type="text" v-model="name" placeholder="Név" required />
+      <input type="email" v-model="email" placeholder="Email címed" required />
+      <textarea v-model="message" placeholder="Üzenet" rows="5" required></textarea>
+      <button type="submit">Küldés</button>
+    </form>
   </div>
 </template>
 
@@ -20,17 +22,18 @@
 export default {
   data() {
     return {
-      connections: [
-        { id: 1, name: "Simon", email: "simon@example.com", mobile: "06123456789" },
-        { id: 2, name: "Csaba", email: "csaba@example.com", mobile: "06123456781" },
-        { id: 3, name: "Márk", email: "mark@example.com", mobile: "0612345678" },
-      ],
-      selectedConnection: null,
+      name: "",
+      email: "",
+      message: "",
     };
   },
   methods: {
-    showDetails(connection) {
-      this.selectedConnection = this.selectedConnection === connection ? null : connection;
+    submitForm() {
+      console.log("Kapcsolatfelvétel:", this.name, this.email, this.message);
+      alert("Köszönjük, hogy írtál nekünk! Hamarosan válaszolunk.");
+      this.name = "";
+      this.email = "";
+      this.message = "";
     },
   },
 };
@@ -38,59 +41,62 @@ export default {
 
 <style scoped>
 .connections-container {
-  max-width: 600px;
+  max-width: 800px;
   margin: 50px auto;
-  padding: 20px;
-  background-color: #121212;
-  color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 20px 20px 20px rgb(0, 0, 0);
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+}
+
+h2, h3 {
   text-align: center;
+  margin-bottom: 20px;
 }
 
-.connections-list {
-  list-style: none;
-  padding: 0;
+.contact-info {
+  text-align: center;
+  margin-bottom: 40px;
+  line-height: 1.8;
+  font-size: 1.1em;
 }
 
-.connection-item {
-  background-color: #1e1e1e;
-  padding: 10px 15px;
-  margin: 10px 0;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
-  text-align: left;
-}
-
-.connection-info {
+.contact-form {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.connection-name {
-  font-size: 1.1rem;
-}
-
-.connect-btn {
-  background: linear-gradient(to bottom, #edeff1, #0b0b0b);
-  color: whitesmoke;
+.contact-form input,
+.contact-form textarea {
+  padding: 12px;
   border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
+  border-radius: 6px;
+  background-color: #1b2b38;
+  color: white;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  background-color: #2c3e50;
+  outline: none;
+}
+
+.contact-form button {
+  background-color: #00b4b4;
+  color: white;
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
 }
 
-.connect-btn:hover {
-  background-color: whitesmoke;
-  color: black;
-}
-
-.connection-details {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #252525;
-  border-radius: 5px;
+.contact-form button:hover {
+  background-color: #019191;
 }
 </style>
