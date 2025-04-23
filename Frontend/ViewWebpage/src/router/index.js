@@ -7,9 +7,12 @@ import ConnetionsView from '@/views/ConnetionsView.vue';
 import TermsAndConditionsView from '@/views/TermsAndConditionsView.vue';
 import PrivacyAndPolicyView from '@/views/PrivacyAndPolicyView.vue';
 import AdminView from '@/views/AdminView.vue';
-import CartView from '@/views/CartView.vue';
+import AboutView from '@/views/AboutView.vue';
+import HowToHelpView from '@/views/HowToHelpView.vue';
+import ProfileView from '@/views/ProfileView.vue';
+import ProductsView from '@/views/ProductsView.vue';
 
-import TanksView from '@/views/ProductsView.vue/TanksView.vue';
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +21,26 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: AboutView,
+    },
+    {
+      path: '/HowToHelp',
+      name: 'HowToHelp',
+      component: HowToHelpView,
+    },
+    {
+      path: '/products',
+      name: 'products',
+      component: ProductsView,
+    },
+    {
+      path: '/Profile',
+      name: 'ProfileView',
+      component: ProfileView,
     },
     {
       path: '/register',
@@ -44,18 +67,6 @@ const router = createRouter({
       name: 'policy',
       component: PrivacyAndPolicyView,
     },
-    {
-      path: '/Cart',
-      name: 'Cart',
-      component: CartView,
-    },
-
-    {
-      path: '/tanks',
-      name: 'tanks',
-      component: TanksView,
-    },
-
     {
       path: '/admin',
       name: 'admin',
