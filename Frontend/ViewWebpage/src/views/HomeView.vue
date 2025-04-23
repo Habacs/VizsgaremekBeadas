@@ -12,13 +12,14 @@
 
     <div class="shared-bg py-5">
       <section class="container text-center mb-5">
-        <h2 class="mb-4">Kiemelt célok</h2>
-        <div class="row g-4 justify-content-center">
-          <div class="col-md-4" v-for="product in featuredProducts" :key="product.id">
-            <ProductCard v-bind="product" />
-          </div>
-        </div>
-      </section>
+  <h2 class="mb-4 fw-bold text-teal">Kiemelt célok</h2>
+  <div class="row g-4 justify-content-center">
+    <div class="col-12 col-sm-6 col-md-4" v-for="product in featuredProducts" :key="product.id">
+      <ProductCard v-bind="product" />
+    </div>
+  </div>
+</section>
+
 
       <section class="container text-center">
         <h2 class="mb-3">Te is lehetsz a változás része</h2>
