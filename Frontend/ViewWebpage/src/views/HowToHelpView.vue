@@ -4,12 +4,12 @@
       <h1 class="text-center">Hogyan segíthetsz?</h1>
 
       <p class="lead">
-        Oldalunk célja, hogy valódi segítséget nyújtson rászoruló gyermekeknek minőségi ruházat formájában.
+        Oldalunk célja, hogy valódi segítséget nyújtson rászoruló gyermekeknek minőségi sportruházat és
+        sporteszközök formájában.
       </p>
 
       <p>
-        Nem használt ruhákat gyűjtünk, hanem gondosan kiválogatott, új vagy kiváló állapotú darabokat keresünk meg,
-        figyelve az ár-érték arányra, időtállóságra és a gyerekek igényeire.
+        Nem használt ruhákat gyűjtünk, hanem minőségi, új vagy újszerű sportruházatot és sporteszközöket szerzünk be – odafigyelve az ár-érték arányra és a gyermekek igényeire.
       </p>
 
       <p>
@@ -19,8 +19,8 @@
       </p>
 
       <p>
-        Te döntöd el, hogy melyik ruhadarabhoz szeretnél hozzájárulni – legyen az meleg kabát télre, kényelmes cipő
-        iskolába vagy sportfelszerelés a testneveléshez.
+        Te döntöd el, hogy melyik ruhadarabhoz szeretnél hozzájárulni – legyen az meleg futókabát télre, vagy profi foci cipő,
+        esetleg sportfelszerelés a testneveléshez.
         <strong>Minden kis segítség számít.</strong>
       </p>
 
