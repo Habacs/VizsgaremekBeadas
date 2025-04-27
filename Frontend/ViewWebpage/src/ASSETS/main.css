@@ -20,14 +20,12 @@
     --border-radius: 12px;
     --shadow-color: rgba(0, 0, 0, 0.15);
   }
-  
   body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', sans-serif;
     color: var(--text-color);
-    background: url('https://www.transparenttextures.com/patterns/white-wall-3.png'),
-                linear-gradient(135deg, #d7fbe9 0%, #f0fff9 100%);
+    background: url('https://www.transparenttextures.com/patterns/white-wall-3.png');
     background-blend-mode: overlay;
     background-attachment: fixed;
     background-size: cover;
@@ -39,6 +37,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    background: linear-gradient(135deg, #e0f7f7 0%, #d1f0f0 100%);
   }
   
   .card-container {
