@@ -26,20 +26,36 @@
               </div>
             </div>
             <div class="card-footer bg-transparent border-0">
-              <button class="btn btn-outline-teal w-100">Támogatás</button>
+              <button class="btn w-100" :class="product.collectedAmount >= product.goalAmount ? 'btn-success disabled' : 'btn-outline-teal'"
+                @click="openSupport(product)" :disabled="product.collectedAmount >= product.goalAmount">
+          {{ product.collectedAmount >= product.goalAmount ? 'Cél elérve!' : 'Támogatás' }}
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <Support
+      v-if="selectedProduct"
+      :product="selectedProduct"
+      :productId="selectedProduct.id"
+      :onClose="closeSupport"
+      :onSupport="handleSupport"
+    />
   </div>
 </template>
 
 <script>
+import Support from '@/components/Support.vue'
+
 export default {
   name: "ProductView",
+  components: {
+    Support
+  },
   data() {
     return {
+      selectedProduct: null,
       products: [
         {
           id: 1,
@@ -82,14 +98,31 @@ export default {
           collectedAmount: 6000,
         },
       ],
-    };
+    }
   },
   methods: {
-    progressPercentage(product) {
-      return Math.min(100, (product.collectedAmount / product.goalAmount) * 100);
-    },
+  progressPercentage(product) {
+    return Math.min(100, (product.collectedAmount / product.goalAmount) * 100)
   },
-};
+  openSupport(product) {
+    if (product.collectedAmount >= product.goalAmount) {
+      return;
+    }
+    this.selectedProduct = product;
+  },
+  closeSupport() {
+    setTimeout(() => {
+      this.selectedProduct = null
+    }, 10)
+  },
+  handleSupport(productId, amount) {
+    const product = this.products.find(p => p.id === productId)
+    if (product) {
+      product.collectedAmount += amount
+    }
+  }
+}
+}
 </script>
 
 <style scoped>
