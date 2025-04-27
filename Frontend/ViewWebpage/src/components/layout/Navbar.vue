@@ -20,7 +20,7 @@
             </li>
 
             <li class="nav-item">
-              <RouterLink class="nav-link" to="/products">Adományozható ruhák</RouterLink>
+              <RouterLink class="nav-link" to="/products">Támogatható célok</RouterLink>
             </li>
 
             <li class="nav-item">
