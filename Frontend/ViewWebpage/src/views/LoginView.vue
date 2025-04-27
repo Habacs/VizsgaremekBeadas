@@ -1,13 +1,14 @@
 <template>
-  <div class="login-container">
-    <h2>Login</h2>
+  <div class="page-wrapper">
+    <h2>Bejelentkezés</h2>
     <form class="login-form" @submit.prevent="login">
-      <input type="email" v-model="email" placeholder="Email" required />
-      <input type="password" v-model="password" placeholder="Password" required />
-      <button type="submit">Sign In</button>
+      <input type="email" v-model="email" placeholder="Email cím" required />
+      <input type="password" v-model="password" placeholder="Jelszó" required />
+      <button type="submit">Belépés</button>
     </form>
-    <p>Don't have an account?</p>
-    <button class="switch-btn" @click="goToRegister">Register here</button>
+
+    <p class="mt-3">Még nincs fiókod?</p>
+    <button class="switch-btn" @click="goToRegister">Regisztrálj itt</button>
   </div>
 </template>
 
@@ -21,7 +22,7 @@ export default {
   },
   methods: {
     login() {
-      console.log("User Logged In:", this.email);
+      console.log("Bejelentkezve:", this.email);
     },
     goToRegister() {
       this.$router.push("/register");
@@ -31,60 +32,59 @@ export default {
 </script>
 
 <style scoped>
-.login-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #121212;
-  color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 20px 20px 20px rgb(0, 0, 0);
-  text-align: center;
-}
-
 .login-form {
   display: flex;
   flex-direction: column;
 }
 
 .login-form input {
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  color: #fff;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #00b4b4;
+  box-shadow: 0 0 0 2px rgba(0, 180, 180, 0.2);
 }
 
 .login-form button {
-  background-color: whitesmoke;
-  color: black;
+  background-color: #00b4b4;
+  color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 0.8rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  font-size: 1rem;
+  transition: background-color 0.3s;
 }
 
 .login-form button:hover {
-  background-color: black;
-  color: whitesmoke;
+  background-color: #007f7f;
 }
 
 .switch-btn {
-  background-color: whitesmoke;
-  color: black;
-  border: 1px solid black;
-  padding: 10px 15px;
-  margin-top: 10px;
-  border-radius: 5px;
+  margin-top: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #00b4b4;
+  color: #00b4b4;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 1rem;
   transition: all 0.3s;
 }
 
 .switch-btn:hover {
-  background-color: black;
-  color: whitesmoke;
-  border: 1px solid whitesmoke;
+  background-color: #00b4b4;
+  color: white;
+}
+
+.mt-3 {
+  margin-top: 1rem;
 }
 </style>
