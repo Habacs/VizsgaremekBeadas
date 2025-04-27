@@ -43,7 +43,7 @@ export default {
 .connections-container {
   max-width: 800px;
   margin: 50px auto;
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(to right, #4b88a2, #5395ab, #2c5364);
   color: white;
   padding: 30px;
   border-radius: 12px;
@@ -77,12 +77,6 @@ h2, h3 {
   color: white;
   font-size: 1em;
   transition: background-color 0.3s;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  background-color: #2c3e50;
-  outline: none;
 }
 
 .contact-form button {
