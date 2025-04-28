@@ -9,7 +9,7 @@
     </form>
 
     <p class="mt-3">Már van fiókod?</p>
-    <button class="switch-btn" @click="goToLogin">Bejelentkezés</button>
+    <RouterLink class="switch-btn" to="login">Bejelentkezés</RouterLink>
 
     <div class="terms_and_conditions mt-4">
       <p>
@@ -35,9 +35,6 @@ export default {
   methods: {
     register() {
       console.log("User Registered:", this.username, this.email);
-    },
-    goToLogin() {
-      this.$router.push("/login");
     },
   },
 };
@@ -81,6 +78,7 @@ export default {
 }
 
 .switch-btn {
+  text-decoration: none;
   margin-top: 0.5rem;
   background-color: transparent;
   border: 1px solid #00b4b4;

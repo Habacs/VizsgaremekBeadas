@@ -2,34 +2,49 @@
   <div class="page-wrapper">
     <h2>Bejelentkezés</h2>
     <form class="login-form" @submit.prevent="login">
-      <input type="email" v-model="email" placeholder="Email cím" required />
+      <input type="text" v-model="identifier" placeholder="Felhasználónév vagy Email cím" required />
       <input type="password" v-model="password" placeholder="Jelszó" required />
       <button type="submit">Belépés</button>
     </form>
 
     <p class="mt-3">Még nincs fiókod?</p>
-    <button class="switch-btn" @click="goToRegister">Regisztrálj itt</button>
+    <RouterLink class="switch-btn" to="/Register">Regisztrálj itt</RouterLink>
+
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'LoginView',
   data() {
     return {
-      email: "",
-      password: "",
+      identifier: '',
+      password: '',
+      errorMessage: ''
     };
   },
   methods: {
     login() {
-      console.log("Bejelentkezve:", this.email);
+      const users = [
+        { username: 'admin', email: 'admin@example.hu', password: 'admin123', route: '/admin' },
+        { username: 'user', email: 'user@example.hu', password: 'user123', route: '/products' }
+      ];
+      const foundUser = users.find(user =>
+        (user.username === this.identifier || user.email === this.identifier) &&
+        user.password === this.password
+      );
+
+      if (foundUser) {
+        this.$router.push(foundUser.route);
+      } else {
+        this.errorMessage = 'Hibás felhasználónév/email vagy jelszó!';
+      }
     },
-    goToRegister() {
-      this.$router.push("/register");
-    },
-  },
+  }
 };
 </script>
+
 
 <style scoped>
 .login-form {
@@ -68,6 +83,7 @@ export default {
 }
 
 .switch-btn {
+  text-decoration: none;
   margin-top: 0.5rem;
   background-color: transparent;
   border: 1px solid #00b4b4;
@@ -86,5 +102,10 @@ export default {
 
 .mt-3 {
   margin-top: 1rem;
+}
+.error-message {
+  color: red;
+  margin-top: 1rem;
+  font-weight: bold;
 }
 </style>
