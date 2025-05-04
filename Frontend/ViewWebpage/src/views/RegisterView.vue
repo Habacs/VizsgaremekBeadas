@@ -9,7 +9,7 @@
     </form>
 
     <p class="mt-3">Már van fiókod?</p>
-    <RouterLink class="switch-btn" to="login">Bejelentkezés</RouterLink>
+    <button class="switch-btn" @click="goToLogin">Bejelentkezés</button>
 
     <div class="terms_and_conditions mt-4">
       <p>
@@ -20,28 +20,52 @@
         <router-link to="/policy">Adatvédelmi szabályzatot</router-link>.
       </p>
     </div>
+
+    <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
   </div>
 </template>
 
 <script>
+import http from '@/utils/http'
+
 export default {
   data() {
     return {
       username: "",
       email: "",
       password: "",
+      errorMessage: ""
     };
   },
   methods: {
-    register() {
-      console.log("User Registered:", this.username, this.email);
+    async register() {
+      this.errorMessage = ""
+      try {
+        await http.get("/sanctum/csrf-cookie")
+
+        const response = await http.post("/register", {
+          name: this.username,
+          email: this.email,
+          password: this.password
+        })
+
+        const user = response.data.user
+        localStorage.setItem("user", JSON.stringify(user))
+
+        this.$router.push("/profile")
+      } catch (error) {
+        console.error("Regisztrációs hiba:", error.response?.data || error.message)
+        this.errorMessage = error.response?.data?.message || "Hiba történt. Próbáld újra."
+      }
     },
-  },
-};
+    goToLogin() {
+      this.$router.push("/login")
+    }
+  }
+}
 </script>
 
 <style scoped>
-
 .register-form {
   display: flex;
   flex-direction: column;
@@ -78,7 +102,6 @@ export default {
 }
 
 .switch-btn {
-  text-decoration: none;
   margin-top: 0.5rem;
   background-color: transparent;
   border: 1px solid #00b4b4;
@@ -116,5 +139,12 @@ export default {
 
 .mt-4 {
   margin-top: 2rem;
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+  font-weight: bold;
+  text-align: center;
 }
 </style>

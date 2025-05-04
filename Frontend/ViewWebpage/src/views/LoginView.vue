@@ -2,48 +2,76 @@
   <div class="page-wrapper">
     <h2>Bejelentkezés</h2>
     <form class="login-form" @submit.prevent="login">
-      <input type="text" v-model="identifier" placeholder="Felhasználónév vagy Email cím" required />
+      <input type="email" v-model="email" placeholder="Email cím" required />
       <input type="password" v-model="password" placeholder="Jelszó" required />
       <button type="submit">Belépés</button>
     </form>
 
     <p class="mt-3">Még nincs fiókod?</p>
-    <RouterLink class="switch-btn" to="/Register">Regisztrálj itt</RouterLink>
+    <button class="switch-btn" @click="goToRegister">Regisztrálj itt</button>
 
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <div v-if="error" class="error-message">
+      {{ error }}
+    </div>
   </div>
 </template>
 
 <script>
+import http from '@/utils/http'
+
 export default {
-  name: 'LoginView',
   data() {
     return {
-      identifier: '',
+      email: '',
       password: '',
-      errorMessage: ''
-    };
+      error: ''
+    }
+  },
+  mounted() {
+    const savedUser = localStorage.getItem('user')
+    if (savedUser) {
+      const user = JSON.parse(savedUser)
+      if (user.email === 'admin@admin.com') {
+        this.$router.push('/ADMIN')
+      } else {
+        this.$router.push('/profile')
+      }
+    }
   },
   methods: {
-    login() {
-      const users = [
-        { username: 'admin', email: 'admin@example.hu', password: 'admin123', route: '/admin' },
-        { username: 'user', email: 'user@example.hu', password: 'user123', route: '/products' }
-      ];
-      const foundUser = users.find(user =>
-        (user.username === this.identifier || user.email === this.identifier) &&
-        user.password === this.password
-      );
+    async login() {
+      this.error = ''
+      try {
+        await http.get('/sanctum/csrf-cookie')
 
-      if (foundUser) {
-        this.$router.push(foundUser.route);
-      } else {
-        this.errorMessage = 'Hibás felhasználónév/email vagy jelszó!';
+        const response = await http.post('/login', {
+          email: this.email,
+          password: this.password
+        })
+
+        const userResponse = await http.get('/user')
+        const user = userResponse.data
+
+        localStorage.setItem('user', JSON.stringify(user))
+
+        if (user.email === 'admin@admin.com') {
+          this.$router.push('/ADMIN')
+        } else {
+          this.$router.push('/profile')
+        }
+
+      } catch (err) {
+        this.error = err.response?.data?.message || 'Hiba a bejelentkezés során.'
+        console.error("Bejelentkezési hiba:", err)
       }
     },
+    goToRegister() {
+      this.$router.push('/register')
+    }
   }
-};
+}
 </script>
+
 
 
 <style scoped>
@@ -83,7 +111,6 @@ export default {
 }
 
 .switch-btn {
-  text-decoration: none;
   margin-top: 0.5rem;
   background-color: transparent;
   border: 1px solid #00b4b4;
@@ -103,9 +130,10 @@ export default {
 .mt-3 {
   margin-top: 1rem;
 }
+
 .error-message {
-  color: red;
   margin-top: 1rem;
+  color: red;
   font-weight: bold;
 }
 </style>
