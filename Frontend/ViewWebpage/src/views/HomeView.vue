@@ -6,20 +6,33 @@
         <p class="lead mb-4">
           Támogasd a rászorulókat sportfelszereléssel – egy kis adomány nagy változást hozhat!
         </p>
-        <RouterLink to="/products" class="btn btn-light btn-lg text-teal">Nézd meg, kiknek segíthetsz</RouterLink  >
+        <RouterLink to="/products" class="btn btn-light btn-lg text-teal">Nézd meg, kiknek segíthetsz</RouterLink>
       </div>
     </section>
 
     <div class="shared-bg py-5">
       <section class="container text-center mb-5">
-  <h2 class="mb-4 fw-bold text-teal">Kiemelt célok</h2>
-  <div class="row g-4 justify-content-center">
-    <div class="col-12 col-sm-6 col-md-4" v-for="product in featuredProducts" :key="product.id">
-      <ProductCard v-bind="product" />
-    </div>
-  </div>
-</section>
-
+        <h2 class="mb-4 fw-bold text-teal">Kiemelt célok</h2>
+        <div class="row g-4 justify-content-center">
+          <div class="col-12 col-sm-6 col-md-4" v-for="product in featuredProducts" :key="product.id">
+            <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+              <!-- ✅ Kép megjelenítése a ProductView stílusához igazítva -->
+              <img
+                v-if="product.image"
+                :src="product.image"
+                :alt="product.name"
+                class="card-img-top object-fit-cover"
+                style="height: 200px;"
+              />
+              <div class="card-body">
+                <h5 class="card-title fw-bold text-teal">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+                <small class="text-muted d-block">{{ product.collectedAmount }} Ft / {{ product.goalAmount }} Ft</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="container text-center">
         <h2 class="mb-3">Te is lehetsz a változás része</h2>
@@ -30,14 +43,11 @@
   </div>
 </template>
 
-
 <script>
-import ProductCard from "@/components/ProductCard.vue";
 import { RouterLink } from "vue-router";
 
 export default {
   name: "HomeView",
-  components: { ProductCard },
   data() {
     return {
       featuredProducts: [
@@ -45,7 +55,7 @@ export default {
           id: 1,
           name: "Téli kabát egy fiatal sportoló lánynak",
           description: "Hogy ne kelljen kihagynia az edzéseket a hideg miatt.",
-          image: "/images/kabat.jpg",
+          image: "http://localhost:8000/storage/images/kabat.jpg",
           category: "Kabát",
           goalAmount: 15000,
           collectedAmount: 8700,
@@ -54,7 +64,7 @@ export default {
           id: 2,
           name: "Sportcipő egy iskolás kisfiúnak",
           description: "A mozgás öröme mindenkit megillet.",
-          image: "/images/cipo.jpg",
+          image: "http://localhost:8000/storage/images/cipo.jpg",
           category: "Cipő",
           goalAmount: 12000,
           collectedAmount: 4100,
@@ -63,7 +73,7 @@ export default {
           id: 3,
           name: "Melegítő szett edzésekhez",
           description: "Hogy legyen miben fejlődni és küzdeni.",
-          image: "/images/melegito.jpg",
+          image: "http://localhost:8000/storage/images/melegito.jpg",
           category: "Melegítő",
           goalAmount: 18000,
           collectedAmount: 9200,
@@ -158,5 +168,4 @@ export default {
   background-color: #94e8e8;
   border-radius: 30px 30px 0px 0px;
 }
-
 </style>
