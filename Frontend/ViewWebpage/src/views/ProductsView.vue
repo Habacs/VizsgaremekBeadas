@@ -2,39 +2,57 @@
   <div class="product-view">
     <div class="container py-5">
       <h1 class="text-center text-teal mb-4">Támogatható célok</h1>
-      <p class="text-center text-muted mb-5">Válassz egy ügyet, és adj hozzá egy kis reményt valaki életéhez.</p>
+      <p class="text-center text-muted mb-5">
+        Válassz egy ügyet, és adj hozzá egy kis reményt valaki életéhez.
+      </p>
 
       <div class="row g-4">
         <div class="col-md-6 col-lg-4" v-for="product in products" :key="product.id">
           <div class="card h-100 shadow-sm border-0 product-card">
-            <img :src="product.image" class="card-img-top" :alt="product.name">
+            <!-- ✅ Kép megjelenítése -->
+            <img
+              v-if="product.image"
+              :src="'http://localhost:8000' + product.image"
+              class="card-img-top object-fit-cover"
+              :alt="product.name"
+              style="height: 200px;"
+            />
+
             <div class="card-body d-flex flex-column">
-              <h5 class="card-title text-teal">{{ product.name }}</h5>
+              <h5 class="card-title text-teal fw-semibold">{{ product.name }}</h5>
               <p class="card-text mb-2">{{ product.description }}</p>
+
               <div class="mt-auto">
                 <div class="progress mb-2" style="height: 8px;">
                   <div
                     class="progress-bar bg-teal"
                     :style="{ width: progressPercentage(product) + '%' }"
                     role="progressbar"
-                    :aria-valuenow="product.collectedAmount"
+                    :aria-valuenow="product.collected_amount"
                     :aria-valuemin="0"
-                    :aria-valuemax="product.goalAmount"
+                    :aria-valuemax="product.goal_amount"
                   ></div>
                 </div>
-                <small class="text-muted">{{ product.collectedAmount }} Ft / {{ product.goalAmount }} Ft</small>
+                <small class="text-muted">
+                  {{ product.collected_amount }} Ft / {{ product.goal_amount }} Ft
+                </small>
               </div>
             </div>
+
             <div class="card-footer bg-transparent border-0">
-              <button class="btn w-100" :class="product.collectedAmount >= product.goalAmount ? 'btn-success disabled' : 'btn-outline-teal'"
-                @click="openSupport(product)" :disabled="product.collectedAmount >= product.goalAmount">
-          {{ product.collectedAmount >= product.goalAmount ? 'Cél elérve!' : 'Támogatás' }}
+              <button class="btn w-100"
+                      :class="product.collected_amount >= product.goal_amount ? 'btn-success disabled' : 'btn-outline-teal'"
+                      @click="openSupport(product)"
+                      :disabled="product.collected_amount >= product.goal_amount">
+                {{ product.collected_amount >= product.goal_amount ? 'Cél elérve!' : 'Támogatás' }}
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Modal komponens -->
     <Support
       v-if="selectedProduct"
       :product="selectedProduct"
@@ -47,6 +65,7 @@
 
 <script>
 import Support from '@/components/Support.vue'
+import http from '@/utils/http'
 
 export default {
   name: "ProductView",
@@ -56,72 +75,39 @@ export default {
   data() {
     return {
       selectedProduct: null,
-      products: [
-        {
-          id: 1,
-          name: "Téli kabát egy fiatal sportoló lánynak",
-          description: "Hogy ne kelljen kihagynia az edzéseket a hideg miatt.",
-          image: "/images/kabat.jpg",
-          goalAmount: 15000,
-          collectedAmount: 8700,
-        },
-        {
-          id: 2,
-          name: "Sportcipő egy iskolás kisfiúnak",
-          description: "A mozgás öröme mindenkit megillet.",
-          image: "/images/cipo.jpg",
-          goalAmount: 12000,
-          collectedAmount: 4100,
-        },
-        {
-          id: 3,
-          name: "Melegítő szett edzésekhez",
-          description: "Hogy legyen miben fejlődni és küzdeni.",
-          image: "/images/melegito.jpg",
-          goalAmount: 18000,
-          collectedAmount: 9200,
-        },
-        {
-          id: 4,
-          name: "Torna szőnyeg otthoni edzésekhez",
-          description: "Egy fiatal tornász otthoni gyakorlásához szükséges.",
-          image: "/images/szonyeg.jpg",
-          goalAmount: 8000,
-          collectedAmount: 3500,
-        },
-        {
-          id: 5,
-          name: "Labda egy közösségi focicsapathoz",
-          description: "Egy új labda nagy öröm a gyerekeknek!",
-          image: "/images/labda.jpg",
-          goalAmount: 6000,
-          collectedAmount: 6000,
-        },
-      ],
+      products: []
     }
+  },
+  mounted() {
+    http.get('/products')
+      .then(res => {
+        this.products = res.data
+      })
+      .catch(err => {
+        console.error('Hiba a termékek betöltésekor:', err)
+      })
   },
   methods: {
-  progressPercentage(product) {
-    return Math.min(100, (product.collectedAmount / product.goalAmount) * 100)
-  },
-  openSupport(product) {
-    if (product.collectedAmount >= product.goalAmount) {
-      return;
-    }
-    this.selectedProduct = product;
-  },
-  closeSupport() {
-    setTimeout(() => {
+    progressPercentage(product) {
+      return Math.min(100, (product.collected_amount / product.goal_amount) * 100)
+    },
+    openSupport(product) {
+      if (product.collected_amount >= product.goal_amount) {
+        alert('Ez a cél már teljesült – nem lehet további támogatást küldeni.');
+        return;
+      }
+      this.selectedProduct = product
+    },
+    closeSupport() {
       this.selectedProduct = null
-    }, 10)
-  },
-  handleSupport(productId, amount) {
-    const product = this.products.find(p => p.id === productId)
-    if (product) {
-      product.collectedAmount += amount
+    },
+    handleSupport(productId, amount) {
+      const product = this.products.find(p => p.id === productId)
+      if (product) {
+        product.collected_amount += amount
+      }
     }
   }
-}
 }
 </script>
 
@@ -161,5 +147,9 @@ export default {
 
 .product-card:hover {
   transform: translateY(-5px);
+}
+
+.object-fit-cover {
+  object-fit: cover;
 }
 </style>
