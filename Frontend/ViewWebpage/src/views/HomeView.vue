@@ -16,7 +16,6 @@
         <div class="row g-4 justify-content-center">
           <div class="col-12 col-sm-6 col-md-4" v-for="product in featuredProducts" :key="product.id">
             <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
-              <!-- ✅ Kép megjelenítése a ProductView stílusához igazítva -->
               <img
                 v-if="product.image"
                 :src="product.image"
