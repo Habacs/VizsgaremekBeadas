@@ -1,146 +1,147 @@
 <template>
-    <transition name="fade">
-      <div class="modal-backdrop" @click.self="close" v-if="product">
-        <div class="support-card">
-          <button class="close-button" @click="close" aria-label="Bezárás">×</button>
-  
-          <h2>Támogatás</h2>
-          <p class="text-muted mb-3">
-            Támogatott cél: <strong>{{ product.name }}</strong>
-          </p>
-          <p>{{ product.description }}</p>
-  
-          <p class="text-secondary mb-3">
-            {{ product.collectedAmount }} Ft / {{ product.goalAmount }} Ft
-          </p>
-  
-          <p v-if="remainingAmount > 0" class="text-info mb-3">
-            Hiányzó összeg: {{ remainingAmount }} Ft
-          </p>
-  
-          <label for="amount">Támogatás összege (Ft):</label>
+  <div class="modal-backdrop">
+    <div class="modal-box">
+      <button class="custom-close" @click="onClose" aria-label="Bezárás">×</button>
+      
+      <h4 class="text-center fw-bold mb-3">Támogatás</h4>
+      
+      <div class="text-center mb-4">
+        <h6 class="fw-semibold">{{ product.name }}</h6>
+        <p class="text-muted mb-1">{{ product.description }}</p>
+        <small class="d-block text-muted">{{ product.collected_amount }} Ft / {{ product.goal_amount }} Ft</small>
+        <small class="d-block mt-1" :class="remainingAmount <= 0 ? 'text-danger' : 'text-secondary'">
+          {{ remainingAmount <= 0 ? 'A cél már teljesült.' : 'Hiányzik: ' + remainingAmount + ' Ft' }}
+        </small>
+      </div>
+
+      <form @submit.prevent="submitSupport">
+        <div class="mb-3">
+          <label for="supportAmount" class="form-label">Támogatás összege (Ft):</label>
           <input
-            id="amount"
+            id="supportAmount"
+            v-model.number="supportAmount"
             type="number"
-            v-model="amount"
-            class="form-control mb-3"
-            min="500"
-            :max="remainingAmount"
+            class="form-control form-control-lg"
             placeholder="Pl. 1000"
+            min="1"
+            :max="remainingAmount"
+            required
           />
-  
-          <label for="message">Üzenet (opcionális):</label>
+        </div>
+
+        <div class="mb-4">
+          <label for="message" class="form-label">Üzenet (opcionális):</label>
           <textarea
             id="message"
             v-model="message"
-            class="form-control mb-3"
+            rows="3"
+            class="form-control"
             placeholder="Miért támogatod ezt az ügyet?"
           ></textarea>
-  
-          <button class="btn btn-primary mb-2" @click="submit">Támogatom</button>
-  
-          <div v-if="success" class="alert alert-success mt-3">
-            Sikeres támogatás! Köszönjük!
-          </div>
         </div>
-      </div>
-    </transition>
-  </template>
-  
-  <script>
-  export default {
-    name: 'Support',
-    props: ['onClose', 'productId', 'product', 'onSupport'],
-    data() {
-      return {
-        amount: '',
-        message: '',
-        success: false
+
+        <button
+          type="submit"
+          class="btn btn-primary w-100 btn-lg"
+          :disabled="remainingAmount <= 0"
+        >
+          Támogatom
+        </button>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Support',
+  props: {
+    product: Object,
+    productId: Number,
+    onClose: Function,
+    onSupport: Function
+  },
+  data() {
+    return {
+      supportAmount: null,
+      message: ''
+    };
+  },
+  computed: {
+    remainingAmount() {
+      return Math.max(0, this.product.goal_amount - this.product.collected_amount);
+    }
+  },
+  methods: {
+    submitSupport() {
+      const amount = parseInt(this.supportAmount);
+
+      if (isNaN(amount) || amount <= 0) {
+        alert('Kérlek adj meg egy érvényes összeget!');
+        return;
       }
-    },
-    computed: {
-      remainingAmount() {
-        if (!this.product) return 0;
-        const remaining = this.product.goalAmount - this.product.collectedAmount;
-        return remaining > 0 ? remaining : 0;
+
+      if (amount > this.remainingAmount) {
+        alert(`Legfeljebb ${this.remainingAmount} Ft-tal támogathatod ezt a célt.`);
+        return;
       }
-    },
-    methods: {
-      close() {
-        this.onClose();
-      },
-      submit() {
-        if (this.amount >= 500) {
-          if (this.amount > this.remainingAmount) {
-            alert(`Csak ${this.remainingAmount} Ft hiányzik a cél eléréséhez.`);
-            return;
-          }
-          this.success = true;
-          this.onSupport(this.productId, parseInt(this.amount));
-          setTimeout(() => {
-            this.success = false;
-            this.close();
-          }, 2000);
-        } else {
-          alert("A támogatásnak legalább 500 Ft-nak kell lennie.");
-        }
-      }
+
+      this.onSupport(this.productId, amount);
+      this.onClose();
     }
   }
-  </script>
-  
-  <style scoped>
-  .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 64, 64, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .support-card {
-    position: relative;
-    background-color: #f9fbfb;
-    border: 4px solid #007f7f;
-    border-radius: 10px;
-    padding: 2rem;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
-  
-  .support-card h2 {
-    color: #005c5c;
-    margin-bottom: 1rem;
-  }
-  
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity 0.4s ease;
-  }
-  .fade-enter-from, .fade-leave-to {
-    opacity: 0;
-  }
-  
-  .close-button {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 1.8rem;
-    color: #005c5c;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-  
-  .close-button:hover {
-    color: #003f3f;
-  }
-  </style>
-  
+};
+</script>
+
+<style scoped>
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 127, 127, 0.3);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+textarea.form-control {
+  resize: none;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+}
+.custom-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.custom-close:hover {
+  color: #007f7f;
+}
+
+</style>
