@@ -31,7 +31,7 @@ Főbb mappák és fájlok
 Telepítési útmutató (fejlesztői gépre)
 
 Backend (Laravel)
-```bash
+
 cd backend
 composer install
 cp .env.example .env
@@ -43,3 +43,5 @@ Frontend (Vue.js):
 cd frontend
 npm install
 npm run dev
+
+
